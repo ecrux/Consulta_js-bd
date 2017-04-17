@@ -36,7 +36,7 @@
         }
         
         $outp ='{"records":['.$outp.']}';*/
-        $salida = '{"records":[{"Alias" : "TITO"}]}';
+        $salida = '{"records":[{"Alias" : "TITO"},{"Alias" : "Ojo"} ]}';
         //$conn->close();
         echo $salida;
         //echo($outp);
