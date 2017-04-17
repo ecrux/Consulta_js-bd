@@ -3,6 +3,8 @@
 <head>
     <title>Ej de AngularJS</title>
     <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
+    <script type="text/javascript" src="js/TweenMax.min.js"></script>
 </head>
 <body>
     
@@ -22,7 +24,9 @@
         </div>
 
     </div>
-    
+    <div id="container_result">
+        
+    </div>   
     <!-- Aquí se incluye el otro archivo js par probar que el código se puede colocar en otro archivo  
     <script src="js/ayudante.js"></script>-->
     
@@ -56,7 +60,9 @@
                                     console.log( response );
                                     $scope.campos = response.records;            
                                 }
-                            );   
+                            );  
+                            var a = document.getElementById('container_result') ;
+                            TweenMax.to(a, 3, {left:"550px"});
                         }                    
                     }
                 }
