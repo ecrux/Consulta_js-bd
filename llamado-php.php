@@ -8,7 +8,7 @@
     if( isset( $_GET[ 'cadena' ] ) )
     {     
         include( "config.php" );
-        
+        $cad = $_GET['cadena'];
         /*Esta conexión se realiza para la prueba con angularjs*/
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
@@ -36,7 +36,7 @@
         }
         
         $outp ='{"records":['.$outp.']}';*/
-        $salida = '{"records":[{"Alias" : "TITO"},{"Alias" : "Ojo"} ]}';
+        $salida = '{"records":[{"Alias" : "TITO", "Nombre":"'.$cad.'"},{"Alias" : "Ojo", "Nombre": "'.$cad.'"} ]}';
         //$conn->close();
         echo $salida;
         //echo($outp);
