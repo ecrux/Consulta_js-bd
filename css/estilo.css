@@ -1,8 +1,15 @@
 #container_result
 {
 	position: absolute;
-	left: -200px;
-	width: 200px;
-	height: 100px;
+	left: -250px;
+	width: 220px;
+	top: 200px;
+	height: 120px;
 	border: dashed;
+	color: #78281F;
+	font-family: 'tahoma';
+	background-color: #F5B7B1;
+	font-size: 70px;
+	text-align: center;
+	padding-top: 40px;
 }

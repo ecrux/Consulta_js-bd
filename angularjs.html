@@ -15,7 +15,7 @@
         <input type="text" ng-model="datos.texto2" ng-change="cargar_datos_php()"> 
         <input type="text" ng-model="operador" ng-change="cargar_datos_php()"> 
         <br>
-
+        {{ result }}
         <!-- Esto es importante para que se escriban los resultados como un ciclo dependiendo de la info php MySQL -->
         <div ng-repeat="x in campos" style="border:dashed;">
             <!-- Alias. {{x.Alias}} <br> -->
@@ -24,9 +24,11 @@
         </div>
 
     </div>
+
+    <!-- Este es el div que gsap maneja -->
     <div id="container_result">
-        
     </div>   
+    
     <!-- Aquí se incluye el otro archivo js par probar que el código se puede colocar en otro archivo  
     <script src="js/ayudante.js"></script>-->
     
@@ -46,23 +48,30 @@
                      */
                     $scope.cargar_datos_php = function()
                     {
-                        var cad = $scope.datos.texto1;
-                        var cad1 = $scope.datos.texto2;
-                        var ope = $scope.operador;
                         
-                        if( cad !== "" && cad1 !== "" && ope !== "")
+                            var cad = $scope.datos.texto1;
+                            var cad1 = $scope.datos.texto2;
+                            var ope = $scope.operador;
+                            console.log(cad +"-"+ cad1 +"-"+ ope);
+                        if( cad == undefined || cad1 == undefined || ope == undefined )
                         {
+                            $scope.result = "Complete los campos";
+                            TweenMax.to(a, 3, {left:"-250px"});
+                        }else{
+                            $scope.result = "";
                             //Aquí se hace el llamado a un php con conexión a MySQL.
                             $http.get( 'llamado-php.php?cadena=' + cad + '&cadena1=' + cad1 + '&operador='+ ope).success
                             (
                                 function( response ) 
                                 { 
-                                    console.log( response );
+                                    //console.log( response );
                                     $scope.campos = response.records;            
+                                    var a = document.getElementById('container_result') ;
+                                    TweenMax.to(a, 3, {left:"550px"});
+                                    console.log($scope.campos[0].Result);
+                                    a.innerHTML = $scope.campos[0].Result;
                                 }
                             );  
-                            var a = document.getElementById('container_result') ;
-                            TweenMax.to(a, 3, {left:"550px"});
                         }                    
                     }
                 }
