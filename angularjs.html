@@ -9,13 +9,15 @@
     <div ng-controller="acumuladorAppCtrl"><!--Super importante el controlador aquí-->
         
         
+        <input type="text" ng-model="datos.texto1" ng-change="cargar_datos_php()"> 
         <input type="text" ng-model="datos.texto2" ng-change="cargar_datos_php()"> 
+        <input type="text" ng-model="operador" ng-change="cargar_datos_php()"> 
         <br>
 
         <!-- Esto es importante para que se escriban los resultados como un ciclo dependiendo de la info php MySQL -->
-        <div ng-repeat="x in campos">
-            Alias. {{x.Alias}} <br>
-            Nombre. {{x.Nombre}} <br><br> 
+        <div ng-repeat="x in campos" style="border:dashed;">
+            <!-- Alias. {{x.Alias}} <br> -->
+            Resultado. {{x.Result}} <br><br> 
             <!--Alias: {{ x.Alias }} Nombre: {{ x.Nombres }} {{ x.Apellidos }}-->
         </div>
 
@@ -40,12 +42,14 @@
                      */
                     $scope.cargar_datos_php = function()
                     {
-                        var cad2 = $scope.datos.texto2;
+                        var cad = $scope.datos.texto1;
+                        var cad1 = $scope.datos.texto2;
+                        var ope = $scope.operador;
                         
-                        if( cad2.length > 0 )
+                        if( cad !== "" && cad1 !== "" && ope !== "")
                         {
                             //Aquí se hace el llamado a un php con conexión a MySQL.
-                            $http.get( 'llamado-php.php?cadena=' + cad2 ).success
+                            $http.get( 'llamado-php.php?cadena=' + cad + '&cadena1=' + cad1 + '&operador='+ ope).success
                             (
                                 function( response ) 
                                 { 

@@ -8,11 +8,36 @@
     if( isset( $_GET[ 'cadena' ] ) )
     {     
         include( "config.php" );
-        $cad = $_GET['cadena'];
+        $cad = $_GET['cadena'] ;//.$_GET["operador"]. $_GET['cadena1'] ;
+        $cad1 = $_GET['cadena1'];
+        $ope = $_GET['operador'];
+        switch ($ope) {
+            case 'mas':
+                $result = (int)$cad + (int)$cad1;
+                break;
+            case '+':
+                $result = (int)$cad + (int)$cad1;
+                break;
+            case '-':
+                $result = $cad - $cad1;
+                break;
+            case '*':
+                $result = $cad * $cad1;
+                break;
+            case '/':
+                if ($cad1 == 0) {
+                    $result = "Ingrese un número mayor a 0 ";
+                }else{$result = $cad / $cad1;}
+                break;
+            default:
+                $result = (int)$cad + (int)$cad1;
+                break;
+        }
+        
         /*Esta conexión se realiza para la prueba con angularjs*/
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
-        
+        //echo $ope;
         /*$conn = new mysqli( $servidor, $usuario, $clave, $base_de_datos );
         
         //Se busca principalmente por alias.
@@ -36,7 +61,7 @@
         }
         
         $outp ='{"records":['.$outp.']}';*/
-        $salida = '{"records":[{"Alias" : "TITO", "Nombre":"'.$cad.'"},{"Alias" : "Ojo", "Nombre": "'.$cad.'"} ]}';
+        $salida = '{"records":[{"Result":"'.$result.'"} ]}';
         //$conn->close();
         echo $salida;
         //echo($outp);
