@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="acumuladorApp"><!--Hay que observar que aquí se inicia el ng-app-->
+<head>
+    <title>Ej de AngularJS</title>
+    <script src="js/angular.min.js"></script>
+</head>
+<body>
+    
+    <div ng-controller="acumuladorAppCtrl"><!--Super importante el controlador aquí-->
+        
+        
+        <input type="text" ng-model="datos.texto2" ng-change="cargar_datos_php()"> 
+        <br>
+
+        <!-- Esto es importante para que se escriban los resultados como un ciclo dependiendo de la info php MySQL -->
+        <div ng-repeat="x in campos">
+            Alias. {{x.Alias}}
+            <!--Alias: {{ x.Alias }} Nombre: {{ x.Nombres }} {{ x.Apellidos }}-->
+        </div>
+
+    </div>
+    
+    <!-- Aquí se incluye el otro archivo js par probar que el código se puede colocar en otro archivo  
+    <script src="js/ayudante.js"></script>-->
+    
+    <script>
+        
+        var acumuladorApp = angular.module( 'acumuladorApp', [] );
+        
+        acumuladorApp.controller( "acumuladorAppCtrl",
+            
+            //[ "$scope",  //Originalmente solo se minificaba el scope.
+            [ "$scope", "$http", //Esto es para minificar, pero interfiere con lo de php, hay que minificar las otras variables.
+             
+                function( $scope, $http )
+                {
+                    /**
+                     * Esta función se activa al usar el texto 2.
+                     */
+                    $scope.cargar_datos_php = function()
+                    {
+                        var cad2 = $scope.datos.texto2;
+                        
+                        if( cad2.length > 0 )
+                        {
+                            //Aquí se hace el llamado a un php con conexión a MySQL.
+                            $http.get( 'llamado-php.php?cadena=' + cad2 ).success
+                            (
+                                function( response ) 
+                                { 
+                                    console.log( response );
+                                    $scope.campos = response.records;            
+                                }
+                            );   
+                        }                    
+                    }
+                }
+            ] //Si se minifica, se deben minificar todas las llamadas inyecciones, de lo contrario mejor no minifique nada.
+        );
+        
+    </script>
+
+</body>
+</html>
+
+
