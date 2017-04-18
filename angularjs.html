@@ -11,17 +11,17 @@
     <div ng-controller="acumuladorAppCtrl"><!--Super importante el controlador aquí-->
         
         
-        <input type="text" ng-model="datos.texto1" ng-change="cargar_datos_php()"> 
-        <input type="text" ng-model="datos.texto2" ng-change="cargar_datos_php()"> 
-        <input type="text" ng-model="operador" ng-change="cargar_datos_php()"> 
+        <input type="text" ng-model="datos.texto1"> 
+        <input type="text" ng-model="datos.texto2"> 
+        <input type="submit" ng-model="operador" ng-click="cargar_datos_php()"> 
         <br>
         {{ result }}
         <!-- Esto es importante para que se escriban los resultados como un ciclo dependiendo de la info php MySQL -->
-        <div ng-repeat="x in campos" style="border:dashed;">
-            <!-- Alias. {{x.Alias}} <br> -->
-            Resultado. {{x.Result}} <br><br> 
-            <!--Alias: {{ x.Alias }} Nombre: {{ x.Nombres }} {{ x.Apellidos }}-->
-        </div>
+        <ol>
+            <ul ng-repeat="x in campos">
+                Resultado. {{x.Archivo}} 
+            </ul>
+        </ol>
 
     </div>
 
@@ -51,16 +51,15 @@
                         
                             var cad = $scope.datos.texto1;
                             var cad1 = $scope.datos.texto2;
-                            var ope = $scope.operador;
-                            console.log(cad +"-"+ cad1 +"-"+ ope);
-                        if( cad == undefined || cad1 == undefined || ope == undefined )
+                            //console.log(cad +"-"+ cad1 +"-"+ ope);
+                        if( cad == undefined || cad1 == undefined )
                         {
                             $scope.result = "Complete los campos";
                             TweenMax.to(a, 3, {left:"-250px"});
                         }else{
                             $scope.result = "";
                             //Aquí se hace el llamado a un php con conexión a MySQL.
-                            $http.get( 'llamado-php.php?cadena=' + cad + '&cadena1=' + cad1 + '&operador='+ ope).success
+                            $http.get( 'llamado-php.php?cadena=' + cad + '&cadena1=' + cad1 ).success
                             (
                                 function( response ) 
                                 { 

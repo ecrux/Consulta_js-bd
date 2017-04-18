@@ -8,31 +8,6 @@
     if( isset( $_GET[ 'cadena' ] ) )
     {     
         include( "config.php" );
-        $cad = $_GET['cadena'] ;//.$_GET["operador"]. $_GET['cadena1'] ;
-        $cad1 = $_GET['cadena1'];
-        $ope = $_GET['operador'];
-        switch ($ope) {
-            case 'mas':
-                $result = (int)$cad + (int)$cad1;
-                break;
-            case '+':
-                $result = (int)$cad + (int)$cad1;
-                break;
-            case '-':
-                $result = $cad - $cad1;
-                break;
-            case '*':
-                $result = $cad * $cad1;
-                break;
-            case '/':
-                if ($cad1 == 0) {
-                    $result = "Ingrese un número mayor a 0 ";
-                }else{$result = $cad / $cad1;}
-                break;
-            default:
-                $result = (int)$cad + (int)$cad1;
-                break;
-        }
         
         /*Esta conexión se realiza para la prueba con angularjs*/
         header("Access-Control-Allow-Origin: *");
@@ -59,9 +34,36 @@
             $outp .= '"Documento":"'.$rs["documento"].'",'; 
             $outp .= '"Apellidos":"'.$rs["apellidos"].'"}';     // <-- La tabla MySQL debe tener este campo.
         }
-        
         $outp ='{"records":['.$outp.']}';*/
-        $salida = '{"records":[{"Result":"'.$result.'"} ]}';
+        $name = $_GET['cadena'];
+        $contenido = $_GET['cadena1'];
+        $salida ="";
+        $archivo = fopen($name.".txt",'a');
+        fputs($archivo,$contenido);
+        fclose($archivo);
+        
+        $salida="";
+        $carpeta = 'C:\xampp\htdocs\ec\codigojs_limpio-git\Consulta_js-bd';
+            if(is_dir($carpeta)){
+                if($dir = opendir($carpeta)){
+                    while(($archivo = readdir($dir)) !== false){
+                        if($archivo != '.' && $archivo != '..' && $archivo != '.htaccess'){
+                            if ($salida != "") {$salida .= ",";}
+                            $salida.= '{"Archivo" : "'.$archivo.'"}';
+                        }
+                    }
+                    closedir($dir);
+                }
+            }
+        
+         
+        
+
+        /*$fp = fopen("fichero.txt", "w");
+        fputs($fp, "Prueba de escritura aprenderaprogramar.com");
+        fclose($fp);*/
+
+        $salida = '{"records":['.$salida.' ]}';
         //$conn->close();
         echo $salida;
         //echo($outp);
